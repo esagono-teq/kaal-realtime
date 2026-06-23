@@ -1,0 +1,24 @@
+{
+    "name": "kaal/realtime",
+    "description": "KAAL Realtime package for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kaal\\Realtime\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kaal\\Realtime\\KaalRealtimeServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
