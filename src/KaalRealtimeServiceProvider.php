@@ -99,14 +99,31 @@ class KaalRealtimeServiceProvider extends ServiceProvider
                     \$__kaal_fragment = 'kaal-fragment-' . \$__kaal_counter;
                     array_push(\$__kaal_stack, 'auto');
                     
-                    \$__kaal_url = \Illuminate\Support\Facades\URL::temporarySignedRoute(
-                        request()->route()->getName(),
-                        now()->addHours(2),
-                        array_merge(
-                            request()->route() ? request()->route()->parameters() : [],
-                            array_diff_key(request()->query(), ['signature' => 1, 'expires' => 1])
-                        )
-                    );
+                    \$__kaal_route_name = request()->route() ? request()->route()->getName() : null;
+                    if (\$__kaal_route_name) {
+                        \$__kaal_url = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+                            \$__kaal_route_name,
+                            now()->addHours(2),
+                            array_merge(
+                                request()->route()->parameters(),
+                                array_diff_key(request()->query(), ['signature' => 1, 'expires' => 1])
+                            )
+                        );
+                    } else {
+                        // Fallback for unnamed routes
+                        \$__kaal_params = array_merge(
+                            request()->query(),
+                            ['expires' => now()->addHours(2)->getTimestamp()]
+                        );
+                        unset(\$__kaal_params['signature']);
+                        ksort(\$__kaal_params);
+                        \$__kaal_query_string = \Illuminate\Support\Arr::query(\$__kaal_params);
+                        \$__kaal_original = rtrim(request()->url() . '?' . \$__kaal_query_string, '?');
+                        \$__kaal_key = config('app.key');
+                        \$__kaal_key = is_array(\$__kaal_key) ? \$__kaal_key[0] : \$__kaal_key;
+                        \$__kaal_signature = hash_hmac('sha256', \$__kaal_original, \$__kaal_key);
+                        \$__kaal_url = \$__kaal_original . (str_contains(\$__kaal_original, '?') ? '&' : '?') . 'signature=' . \$__kaal_signature;
+                    }
                     // Cluster support
                     \$__kaal_cluster_attr = '';
                     if (!empty(\$__kaal_cluster_stack)) {
