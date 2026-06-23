@@ -1,4 +1,8 @@
 # KAAL Realtime 
+<p align="center">
+    <img src="https://docs.kaalrealtime.com/assets/logo/logo.png" alt="KAAL Realtime" width="180">
+</p>
+
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kaal/realtime.svg)](https://packagist.org/packages/kaal/realtime) [![License](https://img.shields.io/packagist/l/kaal/realtime.svg)](https://github.com/kaal/realtime/blob/main/LICENSE) 
 
