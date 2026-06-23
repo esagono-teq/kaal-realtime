@@ -44,11 +44,11 @@ class KaalRealtimeServiceProvider extends ServiceProvider
         if (is_null(config('broadcasting.connections.kaal'))) {
             \Illuminate\Support\Facades\Config::set('broadcasting.connections.kaal', [
                 'driver' => 'kaal',
-                'api_secret' => env('GATEWAY_API_SECRET', 'alpha-control-secret'),
                 'app_id' => env('VITE_KAAL_APP_ID'),
                 'key' => env('VITE_KAAL_APP_KEY'),
                 'secret' => env('VITE_KAAL_APP_SECRET'),
                 'url' => env('KAAL_GATEWAY_URL', 'https://ws.kaalrealtime.com'),
+                'api_url' => env('KAAL_API_URL', 'https://api.kaalrealtime.com'),
             ]);
         }
 

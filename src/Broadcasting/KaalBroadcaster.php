@@ -59,11 +59,11 @@ class KaalBroadcaster extends Broadcaster
      */
     public function broadcast(array $channels, $event, array $payload = [])
     {
-        $url = $this->config['url'] . '/control/publish';
+        $url = ($this->config['api_url'] ?? 'https://api.kaalrealtime.com') . '/api/events';
 
         foreach ($this->formatChannels($channels) as $channel) {
             $response = Http::post($url, [
-                'api_secret' => $this->config['api_secret'],
+                // Post to the backend API which securely handles gateway propagation
                 'app_id' => $this->config['app_id'],
                 'key' => $this->config['key'],
                 'secret' => $this->config['secret'],

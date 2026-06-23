@@ -39,12 +39,10 @@ class InstallCommand extends Command
         $credentials = null;
         $this->task('Provisioning App from Gateway', function () use (&$credentials) {
             try {
-                $gatewayUrl = env('KAAL_GATEWAY_URL', 'https://ws.kaalrealtime.com');
-                $apiSecret = env('GATEWAY_API_SECRET', 'alpha-control-secret');
+                $apiUrl = env('KAAL_API_URL', 'https://api.kaalrealtime.com');
 
-                $response = Http::timeout(3)->post("{$gatewayUrl}/api/apps", [
+                $response = Http::timeout(3)->post("{$apiUrl}/api/apps", [
                     'name' => config('app.name', 'Laravel') . ' (Auto-Provisioned)',
-                    'api_secret' => $apiSecret,
                 ]);
                 if ($response->successful()) {
                     $credentials = $response->json();
